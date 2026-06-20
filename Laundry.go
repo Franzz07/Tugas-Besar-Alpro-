@@ -59,13 +59,15 @@ func validasiMenu() int {
 func hitungBiaya(berat float64, jenis string) float64 {
 	var hargaPerKg float64 = 0
 
-	if jenis == "komplit" {
+	// Menggunakan switch case agar lebih rapi dari if-else berantai
+	switch jenis {
+	case "komplit":
 		hargaPerKg = 8000
-	} else if jenis == "cucikering" {
+	case "cucikering":
 		hargaPerKg = 5000
-	} else if jenis == "setrika" {
+	case "setrika":
 		hargaPerKg = 4000
-	} else {
+	default:
 		hargaPerKg = 0
 	}
 
@@ -117,7 +119,8 @@ func binSearchTanggal(tgl int) int {
 	return idx
 }
 
-func selectionSortTanggal(isAscending bool) {
+// Fungsi Selection Sort Tanggal murni Ascending (tanpa parameter bool)
+func selectionSortTanggal() {
 	var i, j, idxTujuan int
 	var temp Transaksi
 
@@ -126,14 +129,9 @@ func selectionSortTanggal(isAscending bool) {
 		idxTujuan = i
 		j = i + 1
 		for j < nTransaksi {
-			if isAscending {
-				if dataTransaksi[j].Tanggal < dataTransaksi[idxTujuan].Tanggal {
-					idxTujuan = j
-				}
-			} else {
-				if dataTransaksi[j].Tanggal > dataTransaksi[idxTujuan].Tanggal {
-					idxTujuan = j
-				}
+			// Langsung urutkan dari terkecil ke terbesar
+			if dataTransaksi[j].Tanggal < dataTransaksi[idxTujuan].Tanggal {
+				idxTujuan = j
 			}
 			j++
 		}
@@ -229,7 +227,9 @@ func main() {
 
 		pilihan = validasiMenu()
 
-		if pilihan == 1 {
+		// Menggunakan switch case untuk menu utama
+		switch pilihan {
+		case 1:
 			var jumlah int
 			fmt.Print("Masukkan jumlah transaksi yang ingin ditambahkan: ")
 			fmt.Scan(&jumlah)
@@ -261,16 +261,18 @@ func main() {
 					fmt.Print("Pilih (1/2/3): ")
 					fmt.Scan(&pilihanLayanan)
 
-					if pilihanLayanan == 1 {
+					// Switch case untuk pilihan layanan
+					switch pilihanLayanan {
+					case 1:
 						jenis = "komplit"
 						validLayanan = true
-					} else if pilihanLayanan == 2 {
+					case 2:
 						jenis = "cucikering"
 						validLayanan = true
-					} else if pilihanLayanan == 3 {
+					case 3:
 						jenis = "setrika"
 						validLayanan = true
-					} else {
+					default:
 						fmt.Println(">> ERROR: Pilihan layanan tidak valid! Masukkan angka 1, 2, atau 3.")
 					}
 				}
@@ -279,7 +281,7 @@ func main() {
 				k++
 			}
 
-		} else if pilihan == 2 {
+		case 2:
 			var urut int
 
 			// Validasi Pilihan Tampil Data
@@ -292,23 +294,25 @@ func main() {
 				fmt.Print("Pilih (1/2/3): ")
 				fmt.Scan(&urut)
 
-				if urut == 1 || urut == 2 || urut == 3 {
+				if urut >= 1 && urut <= 3 {
 					validUrut = true
 				} else {
 					fmt.Println(">> ERROR: Pilihan pengurutan tidak valid! Masukkan angka 1, 2, atau 3.")
 				}
 			}
 
-			if urut == 2 {
+			// Switch case untuk jenis sorting
+			switch urut {
+			case 2:
 				insertionSortHarga(true)
 				fmt.Println(">> Data telah diurutkan dari Termurah ke Termahal")
-			} else if urut == 3 {
+			case 3:
 				insertionSortHarga(false)
 				fmt.Println(">> Data telah diurutkan dari Termahal ke Termurah")
 			}
 			tampilDataTransaksi()
 
-		} else if pilihan == 3 {
+		case 3:
 			var nama string
 			fmt.Print("Masukkan Nama Pelanggan yang dicari (sama persis saat input): ")
 			fmt.Scan(&nama)
@@ -320,9 +324,9 @@ func main() {
 				fmt.Println(">> Data tidak ditemukan.")
 			}
 
-		} else if pilihan == 4 {
+		case 4:
 			var tgl int
-			selectionSortTanggal(true)
+			selectionSortTanggal()
 
 			fmt.Print("Masukkan Tanggal yang dicari (YYYYMMDD): ")
 			fmt.Scan(&tgl)
@@ -350,13 +354,13 @@ func main() {
 				fmt.Println(">> Tidak ada transaksi pada tanggal tersebut.")
 			}
 
-		} else if pilihan == 5 {
+		case 5:
 			var nama string
 			fmt.Print("Masukkan Nama Pelanggan yang ingin dihapus transaksinya: ")
 			fmt.Scan(&nama)
 			hapusTransaksi(nama)
 
-		} else if pilihan == 6 {
+		case 6:
 			var awal, akhir int
 			fmt.Print("Masukkan Tanggal Awal (YYYYMMDD): ")
 			fmt.Scan(&awal)
@@ -366,7 +370,7 @@ func main() {
 			total := hitungPendapatanPeriode(awal, akhir)
 			fmt.Printf(">> Total Pendapatan dari %d s/d %d adalah: %s\n", awal, akhir, formatRupiah(total))
 
-		} else if pilihan == 0 {
+		case 0:
 			fmt.Println("Terima kasih telah menggunakan aplikasi ini!")
 			selesai = true
 		}
