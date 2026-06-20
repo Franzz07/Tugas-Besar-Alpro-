@@ -4,12 +4,6 @@ import "fmt"
 
 const NMAX = 1000
 
-type Pelanggan struct {
-	ID   int
-	Nama string
-	NoHP string
-}
-
 type Transaksi struct {
 	IDTrx         int
 	NamaPelanggan string
@@ -19,11 +13,7 @@ type Transaksi struct {
 	TotalHarga    float64
 }
 
-type ArrPelanggan [NMAX]Pelanggan
 type ArrTransaksi [NMAX]Transaksi
-
-var dataPelanggan ArrPelanggan
-var nPelanggan int = 0
 
 var dataTransaksi ArrTransaksi
 var nTransaksi int = 0
